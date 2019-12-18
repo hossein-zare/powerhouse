@@ -1,0 +1,33 @@
+{
+    "name": "wester/powerhouse",
+    "type": "project",
+    "description": "The Wester Powerhouse",
+    "version": "v2.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hossein Zare",
+            "email": "zarehossein.hz@gmail.com"
+        }
+    ],
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "files": [
+            "powerhouse/helpers/helpers.php"
+        ],
+        "psr-4": {
+            "Powerhouse\\": "powerhouse/",
+            "Fountain\\": "fountain/",
+            "Contracts\\": "contracts/"
+        }
+    },
+    "require": {
+        "php": "^7.2",
+        "doctrine/inflector": "^1.3",
+        "nesbot/carbon": "^2.28"
+    }
+}
