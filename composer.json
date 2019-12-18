@@ -12,7 +12,6 @@
         "sort-packages": true
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "files": [
             "powerhouse/helpers/general.php"
