@@ -44,8 +44,11 @@ class Http
      * 
      * @return string
      */
-    private function getRedirectUri()
+    public function getRedirectUri()
     {
+        if (self::$init)
+            return self::$redirectUri;
+
         return preg_replace('/\/{2,}/', '/', response()->get('REDIRECT_URL'));
     }
 
@@ -54,8 +57,11 @@ class Http
      * 
      * @return string
      */
-    private function getPathPrefix()
+    public function getPathPrefix()
     {
+        if (self::$init)
+            return self::$pathPrefix;
+
         $occurrences = substr_count($this->getRedirectUri(), '/');
 
         $prefix = '.';
@@ -70,7 +76,7 @@ class Http
      * 
      * @return string
      */
-    private function getHost()
+    public function getHost()
     {
         $protocol = response()->get('HTTPS') ? 'https://' : 'http://';
         return $protocol . response()->get('SERVER_NAME');
@@ -85,7 +91,7 @@ class Http
     public function path($path)
     {
         $path = trim($path, '/');
-        return self::$pathPrefix . "/{$path}";
+        return $this->getPathPrefix() . "/{$path}";
     }
 
     /**
@@ -117,7 +123,7 @@ class Http
      * @param  string  $uri
      * @return bool
      */
-    public function isApi($uri = null)
+    public function api($uri = null)
     {
         $uri = trim($uri ?: $this->getRedirectUri(), '/');
         if (substr($uri, 0, 3) === config()->app->api_prefix)
