@@ -14,12 +14,12 @@
     "minimum-stability": "dev",
     "autoload": {
         "files": [
-            "powerhouse/helpers/general.php"
+            "Powerhouse/Helpers/general.php"
         ],
         "psr-4": {
-            "Powerhouse\\": "powerhouse/",
-            "Fountain\\": "fountain/",
-            "Contracts\\": "contracts/"
+            "Powerhouse\\": "Powerhouse/",
+            "Fountain\\": "Fountain/",
+            "Contracts\\": "Contracts/"
         }
     },
     "require": {
