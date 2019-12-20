@@ -62,7 +62,7 @@ class Http
         if (self::$init)
             return self::$pathPrefix;
 
-        $occurrences = substr_count($this->getRedirectUri(), '/');
+        $occurrences = substr_count($this->getRedirectUri(), '/') - 1;
 
         $prefix = '.';
         for ($i = 0; $i < $occurrences; $i++)

@@ -66,10 +66,24 @@ class Find
         $this->executeBridges($route['bridge']);
 
         if (is_callable($route['func']))
-            $this->executeCallback($route['func']);
+            $output = $this->executeCallback($route['func']);
 
         else
-            $this->executeController($route['func']);
+            $output = $this->executeController($route['func']);
+
+        $this->output($output);
+    }
+    
+    /**
+     * Print the output.
+     * 
+     * @param  mixed  $output
+     * @return void
+     */
+    protected function output($output)
+    {
+        if ($output !== null)
+            response()->json($output);
     }
 
     /**
@@ -91,22 +105,29 @@ class Find
      * Execute callback.
      * 
      * @param  callback  $callback
-     * @return void
+     * @return mixed
      */
     protected function executeCallback(callable $callback)
     {
-        $callback(request(), ...$this->parameters);
+        return $callback(request(), ...$this->parameters);
     }
 
     /**
      * Execute controller.
      * 
      * @param  string  $controller
-     * @return void
+     * @return mixed
      */
     protected function executeController(string $controller)
     {
-        //
+        if (strpos($controller, '->') === false)
+            throw new Exception('The controller must match this format: `Controller->method`.');
+
+        $controller = explode('->', $controller);
+        $class = '\\App\\Controllers\\' . $controller[0];
+
+        $obj = new $class();
+        return $obj->{$controller[1]}(request(), ...$this->parameters);
     }
 
     /**
@@ -163,7 +184,7 @@ class Find
                     $regex = $route['pattern'][$info[$i]['name']];
 
                     if (isset($redirectUriTokens[$i]))
-                        if (preg_match('/'. $regex .'/', $redirectUriTokens[$i]) > 0) {
+                        if (preg_match('/^'. $regex .'$/', $redirectUriTokens[$i]) > 0) {
                             array_push($this->parameters, $redirectUriTokens[$i]);
 
                             return true;

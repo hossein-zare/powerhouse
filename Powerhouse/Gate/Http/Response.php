@@ -69,11 +69,15 @@ class Response
     /**
      * Set as json.
      * 
+     * @param  mixed  $content
      * @return Powerhouse\Gate\Http\Response
      */
-    public function json()
+    public function json($content = null)
     {
         $this->header('Content-Type', 'application/json');
+
+        if ($content !== null)
+            return $this->content($content, true);
 
         return $this;
     }
@@ -100,6 +104,22 @@ class Response
         $this->header('Content-Type', 'text/html');
 
         return $this;
+    }
+
+    /**
+     * Print the content.
+     * 
+     * @param  mixed  $content
+     * @param  bool  $header
+     * @return void
+     */
+    public function content($content, $header = false)
+    {
+        if ($header) {
+            echo json_encode($content);
+        } else {
+            echo $content;
+        }
     }
 
     /**
