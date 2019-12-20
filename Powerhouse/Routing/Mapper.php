@@ -155,7 +155,7 @@ class Mapper extends Find
             'context' => $data->context,
             'name' => null,
             'namespace' => $data->namespace,
-            'middleware' => $data->middleware,
+            'bridge' => $data->bridge,
             'pattern' => $data->pattern
         ];
 
@@ -282,23 +282,23 @@ class Mapper extends Find
      * @param  array  $group
      * @return Powerhouse\Routing\Mapper
      */
-    public function middleware(array $group)
+    public function bridge(array $group)
     {
-        self::$routes[ArrayHelper::getLastIndex(self::$routes)]['middleware'] = $group;
+        self::$routes[ArrayHelper::getLastIndex(self::$routes)]['bridge'] = $group;
 
         return $this;
     }
 
     /**
-     * Add new middleware.
+     * Add new bridge.
      * 
      * @param  array  $group
      * @return Powerhouse\Routing\Mapper
      */
-    public function addMiddleware(array $group)
+    public function addBridge(array $group)
     {
-        $middleware = self::$routes[ArrayHelper::getLastIndex(self::$routes)]['middleware'];
-        self::$routes[ArrayHelper::getLastIndex(self::$routes)]['middleware'] = array_merge($middleware, $group);
+        $bridge = self::$routes[ArrayHelper::getLastIndex(self::$routes)]['bridge'];
+        self::$routes[ArrayHelper::getLastIndex(self::$routes)]['bridge'] = array_merge($bridge, $group);
 
         return $this;
     }
@@ -349,7 +349,7 @@ class Mapper extends Find
             'uri' => null,
             'locale' => null,
             'namespace' => null,
-            'middleware' => [],
+            'bridge' => [],
             'pattern' => [],
             'context' => []
         ];
@@ -367,9 +367,9 @@ class Mapper extends Find
             if (isset($value['namespace']) && $value['namespace'] !== null)
                 $data['namespace'].= '/' . $value['namespace'];
 
-            // Middleware
-            if (isset($value['middleware']))
-                $data['middleware'] = array_merge($data['middleware'], $value['middleware']);
+            // Bridge
+            if (isset($value['bridge']))
+                $data['bridge'] = array_merge($data['bridge'], $value['bridge']);
 
             // Pattern
             if (isset($value['pattern']))

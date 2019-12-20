@@ -63,11 +63,28 @@ class Find
      */
     protected function executeRoute(array $route)
     {
+        $this->executeBridges($route['bridge']);
+
         if (is_callable($route['func']))
             $this->executeCallback($route['func']);
 
         else
             $this->executeController($route['func']);
+    }
+
+    /**
+     * Execute bridges.
+     * 
+     * @param  array  $bridges
+     * @return void
+     */
+    protected function executeBridges(array $bridges)
+    {
+        // General bridges
+        foreach (config()->app->bridges->general as $bridge) {
+            $obj = new $bridge();
+            $obj->operation(request());
+        }
     }
 
     /**

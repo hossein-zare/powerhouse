@@ -2,6 +2,8 @@
 
 namespace Powerhouse\Gate\Http;
 
+use Exception;
+
 class Request
 {
 
@@ -60,9 +62,12 @@ class Request
      * @param  string  $name
      * @return string
      */
-    public function input(string $name)
+    public function input(string $name = null)
     {
-        return self::$repository[$name] ?? null;
+        if ($name === null)
+            return self::$repository['input'];
+
+        return self::$repository['input'][$name] ?? null;
     }
 
     /**
@@ -74,6 +79,28 @@ class Request
     public function file(string $name)
     {
         return $_FILES[$name] ?? null;
+    }
+
+    /**
+     * Change request variables.
+     * 
+     * @param  string  $name
+     * @param  mixed  $value
+     * @param  string  $method
+     * @return void
+     */
+    public function change(string $name, $value, string $method)
+    {
+        $method = strtoupper($method);
+
+        if ($method === 'GET')
+            $_GET[$name] = $value;
+        else if ($method === 'POST')
+            $_POST[$name] = $value;
+        else if ($method === 'INPUT')
+            self::$repository['input'][$name] = $value;
+        else
+            throw new Exception("The request method can only be `GET`, `POST` & `INPUT`.");
     }
 
     /**
