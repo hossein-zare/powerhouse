@@ -2,8 +2,6 @@
 
 namespace Powerhouse\Routing;
 
-use Carbon\Carbon;
-use Doctrine\Common\Inflector\Inflector;
 use Powerhouse\Gate\Http;
 use Exception;
 
@@ -226,7 +224,7 @@ class Find
         $this->resetParametersInfo();
 
         $parameters = array_map(function ($item) {
-            $result = $this->hasParameter($item, 'all', true);
+            $result = $this->hasParameters($item, 'all', true);
 
             if ($result !== false) {
                 $isRequired = $result[2] === '?' ? false : true;
