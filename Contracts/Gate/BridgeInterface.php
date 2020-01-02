@@ -1,10 +1,10 @@
 <?php
 
-namespace Contracts\Helpers\Traits;
+namespace Contracts\Gate;
 
 use Powerhouse\Gate\Http\Request;
 
-interface MagicCallInterface
+interface BridgeInterface
 {
 
     public function operation(Request $request);

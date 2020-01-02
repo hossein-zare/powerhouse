@@ -3,10 +3,9 @@
 namespace Powerhouse\Routing;
 
 use Powerhouse\Helpers\Traits\MagicCall;
-use Contracts\Helpers\Traits\MagicCallInterface;
 use Powerhouse\Routing\Mapper;
 
-class Router implements MagicCallInterface
+class Router
 {
     use MagicCall;
 
